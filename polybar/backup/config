@@ -1,0 +1,191 @@
+[settings]
+throttle-ms = 50
+throttle-limit = 5
+
+[bar/top]
+enable-ipc = true
+monitor = ${env:MONITOR:}
+width = 100%
+height = 27
+offset-y = 5
+
+background = #282a36
+foreground = #bd93f9
+
+overline-size = 2
+overline-color = #bc92f8
+underline-size = 2
+underline-color = #bc92f8
+
+spacing = 1
+padding-right = 2
+padding-left = 2
+module-margin-left = 0
+module-margin-right = 2
+
+font-0 = FiraCode Nerd Font:size=12;style=Bold
+font-1 = FiraCode Nerd Font:size=10;style=Bold
+font-2 = FontAwesome:size=14;style=Regular
+font-3 = FiraCode Nerd Font:size=10;style=Regular
+
+modules-left = i3 
+modules-center = 
+modules-right = pulseaudio network cpu memory clock
+
+[module/i3]
+type = internal/i3
+
+format = <label-state> <label-mode>
+format-spacing = 0
+
+label-focused = %index%
+label-focused-margin = 1
+label-focused-font = 2
+label-focused-foreground = #50fa7b
+label-focused-background = #6272a4
+
+label-unfocused = %index%
+label-unfocused-margin = 1
+label-unfocused-background = #eeeeee
+label-unfocused-foreground = #dd222222
+label-unfocused-overline = #c5c5c5
+label-unfocused-underline = #c5c5c5
+label-unfocused-font = 1
+
+label-urgent = %index%
+label-urgent-margin = 1
+label-urgent-font = 2
+
+label-visible = %index%
+label-visible-margin = 1
+label-visible-font = 2
+
+[module/cpu]
+type = internal/cpu
+interval = 0.5
+
+format = <label>
+format-background = #bd93f9
+format-foreground = #282a36
+format-padding = 2
+
+label = CPU %percentage%%
+label-font = 1
+
+[module/memory]
+type = internal/memory
+
+format = <label>
+format-padding = 2
+format-background = #ff79c6
+format-foreground = #282a36
+
+label = RAM %percentage_used%%
+label-font = 1
+
+[module/clock]
+type = internal/date
+date = %%{T3}%Y-%m-%d %H:%M%%{T-}
+format-label-font = 2
+format-padding = 2
+format-background = #8be9fd
+format-foreground = #282a36
+
+[module/xwindow]
+type = internal/xwindow
+label-font = 4
+format-foreground = #8be9fd
+label-maxlen = 40
+
+[module/spotify]
+type = custom/ipc
+; Default
+hook-0 = echo ""
+; Playing/paused show song name and artist
+hook-1 = spotifyctl -q status --format '%artist%: %title%'
+click-middle = "spotifyctl -q playpause"
+click-left = "spotifyctl -q previous"
+click-right = "spotifyctl -q next"
+
+[module/pulseaudio]
+type = internal/pulseaudio
+format-volume = <label-volume>
+label-volume = VOL: %percentage%%
+label-muted = muted
+format-muted-foreground= #282a36
+format-muted-background= #50fa7b
+format-volume-foreground= #282a36
+format-volume-background= #50fa7b
+format-font = 3
+format-muted-font = 3
+format-volume-font = 3
+label-muted-foreground = #666
+use-ui-max = false
+click-right = exec ~/dotfiles/pulseaudio/toggle-audio.sh
+interval = 10
+format-volume-padding = 2
+
+[module/filesystem]
+type = internal/fs
+format-mounted-padding=2
+; Mountpoints to display
+mount-0 = /
+mount-1 = /home
+
+format-mounted-background = #ff5555
+format-mounted-foreground = #282a36
+
+; Seconds to sleep between updates
+; Default: 30
+interval = 10
+
+; Display fixed precision values
+; Default: false
+fixed-values = true
+
+; Spacing between entries
+; Default: 2
+spacing = 4
+
+[module/polywins]
+type = custom/script
+exec = ~/.config/polybar/scripts/polywins.sh
+format = <label>
+label = %output%
+label-padding = 1
+interval = .5
+
+[module/network]
+type = internal/network
+; Name of the network interface to display. You can get the names of the
+; interfaces on your machine with `ip link`
+; Wireless interfaces often start with `wl` and ethernet interface with `eno` or `eth`
+interface = enp4s0
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3.0
+
+; Test connectivity every Nth update
+; A value of 0 disables the feature
+; NOTE: Experimental (needs more testing)
+; Default: 0
+;ping-interval = 3
+
+; @deprecated: Define min width using token specifiers (%downspeed:min% and %upspeed:min%)
+; Minimum output width of upload/download rate
+; Default: 3
+udspeed-minwidth = 5
+
+; Accumulate values from all interfaces
+; when querying for up/downspeed rate
+; Default: false
+accumulate-stats = true
+
+; Consider an `UNKNOWN` interface state as up.
+; Some devices like USB network adapters have 
+; an unknown state, even when they're running
+; Default: false
+unknown-as-up = true
+format-connected = <label-connected>
+label-connected = %downspeed%/%upspeed%

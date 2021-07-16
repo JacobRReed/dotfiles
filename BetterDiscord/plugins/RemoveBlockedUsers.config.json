@@ -1,0 +1,20 @@
+{
+	"notifcations": {
+		"messages": true,
+		"voiceChat": true
+	},
+	"places": {
+		"messages": true,
+		"pins": true,
+		"inbox": true,
+		"replies": true,
+		"mentions": true,
+		"reactions": true,
+		"autocompletes": true,
+		"memberList": true,
+		"voiceList": true,
+		"voiceChat": true,
+		"channelList": true,
+		"recentDms": true
+	}
+}

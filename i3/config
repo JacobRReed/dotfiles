@@ -1,0 +1,163 @@
+#set modifier
+set $super Mod4
+set $alt Mod1
+
+# GAPS
+# Disable window titlebars entirely
+for_window [class="^.*"] border pixel 3
+
+# Workspace to Monitor map
+workspace 1 output DP-0
+workspace 2 output DP-2
+workspace 3 output HDMI-0
+
+# Set inner/outer gaps
+gaps inner 10
+gaps outer 5
+
+focus_on_window_activation focus
+# Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
+# gaps inner|outer current|all set|plus|minus <px>
+# gaps inner all set 10
+# gaps outer all plus 5
+
+# Smart gaps (gaps used if only more than one container on the workspace)
+# smart_gaps on
+
+# Smart borders (draw borders around container only if it is not the only container on this workspace)
+# on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
+smart_borders on
+
+# set font
+font pango: FiraCode Normal 10
+
+# Use Mouse+$super to drag floating windows to their wanted position
+floating_modifier $super
+
+
+# Autostart Programs
+exec --no-startup-id xsettingsd &
+exec_always --no-startup-id feh --bg-fill ~/dotfiles/images/manjaro.png
+#exec --no-startup-id netflix-viewer
+exec --no-startup-id discord
+exec --no-startup-id flatpak run com.spotify.Client 
+exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
+exec_always --no-startup-id picom -b --config ~/.config/picom/picom.conf
+
+# Workspace Assignments
+assign [title="(?i)Discord"] 3
+assign [class="(?i)Spotify"] 3
+assign [class="(?i)Google Chrome"] 1
+
+# Append layout
+exec --no-startup-id "i3-msg 'workspace 3; append_layout ~/dotfiles/i3/ws3.json'"
+## Launch Polybar
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id ~/dotfiles/scripts/screenlayout.sh
+
+#disable power save
+exec --no-startup-id xset s off
+exec --no-startup-id xset s noblank
+exec --no-startup-id xset dpms 0 0 0
+exec --no-startup-id xset -dpms
+
+# start a terminal
+bindsym $super+Return exec alacritty
+
+# Rofi
+bindsym $super+d exec ~/dotfiles/rofi/launcher.sh 
+# dmenu
+bindsym $super+shift+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'FiraCodeNorma-11' -p '>'"
+
+
+# common apps keybinds
+bindsym $super+l exec i3lock -i ~/dotfiles/images/dracula-wallpaper.png
+bindsym $super+Shift+w exec /opt/google/chrome/google-chrome; focus
+bindsym $super+Shift+f exec thunar;focus 
+bindsym Ctrl+Print exec sharenix-section
+bindsym Print exec sharenix
+
+#change volume
+#bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+
+#bindsym XF86AudioLowerVolume exec amixer -q set Master 5%-
+#bindsym XF86AudioMute exec amixer set Master toggle
+
+# music control
+#bindsym XF86AudioNext exec mpc next
+#bindsym XF86AudioPrev exec mpc prev
+#bindsym XF86AudioPlay exec mpc toggle
+#bindsym XF86AudioStop exec mpc stop
+
+# kill focused window
+bindsym $super+q kill
+bindsym $alt+F4 kill
+
+# change focus
+bindsym $super+Left focus left
+bindsym $super+Down focus down
+bindsym $super+Up focus up
+bindsym $super+Right focus right
+
+# move focused window
+bindsym $super+Shift+Left move left
+bindsym $super+Shift+Down move down
+bindsym $super+Shift+Up move up
+bindsym $super+Shift+Right move right
+
+bindsym $super+h split v
+
+bindsym $super+v split h
+
+# enter fullscreen mode for the focused container
+bindsym $super+f fullscreen toggle
+
+# change container layout split
+bindsym $super+s layout toggle split
+
+# toggle tiling / floating
+bindsym $super+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $super+Shift+space focus mode_toggle
+
+# switch to workspace
+bindsym $alt+Control+Right workspace next
+bindsym $alt+Control+Left workspace prev
+
+# move focused container to workspace
+bindsym $super+1 move container to workspace 1
+bindsym $super+2 move container to workspace 2
+bindsym $super+3 move container to workspace 3
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $super+Shift+r restart
+
+# mouse grabs focus on mouseover 
+focus_follows_mouse no
+
+# exit i3
+# bindsym $super+shift+q exec "i3-nagbar -t warning -m 'Take the blue pill?' -b 'Yes' 'i3-msg exit'"
+bindsym $super+shift+q exec i3-msg exit
+bindsym $super+shift+Control+q exec poweroff
+bindsym $super+shift+Control+r exec reboot
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym Left resize shrink width 5 px or 5 ppt
+        bindsym Down resize grow height 5 px or 5 ppt
+        bindsym Up resize shrink height 5 px or 5 ppt
+        bindsym Right resize grow width 5 px or 5 ppt
+        bindsym Return mode "default"
+
+}
+bindsym $super+r mode "resize"
+
+# Dracula
+# class                 border  bground text    indicator child_border
+client.focused          #ff79c6 #ff79c6 #F8F8F2 #ff79c6   #ff79c6
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #8be9fd #8be9fd #BFBFBF #8be9fd   #8be9fd
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #8be9fd #8be9fd #F8F8F2 #8be9fd   #8be9fd
+
+client.background       #F8F8F2
+

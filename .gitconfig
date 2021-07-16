@@ -1,0 +1,16 @@
+[user]
+	name = Jacob Reed
+	email = jacob.reed@oracle.com
+[core]
+	excludesfile = /Users/jreed/.gitignore_global
+	editor = nvim
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /private/var/folders/fy/0rlrsbzn4kg8rnvwcs3sbn6h0000gn/T/AppTranslocation/47B90FDB-785E-4D3D-9D0D-048B92BF3997/d/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/jreed/.stCommitMsg
+[pull]
+	ff = only

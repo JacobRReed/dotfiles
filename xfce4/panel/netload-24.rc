@@ -1,0 +1,14 @@
+Use_Label=false
+Show_Values=false
+Show_Bars=true
+Colorize_Values=false
+Color_In=rgb(255,85,85)
+Color_Out=rgb(241,250,140)
+Text=Net
+Network_Device=enp4s0
+Max_In=4096
+Max_Out=4096
+Auto_Max=false
+Update_Interval=250
+Values_As_Bits=false
+

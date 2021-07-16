@@ -1,0 +1,20 @@
+export PATH=$HOME/bin:/usr/local/bin:$PATH:~/bin/tools
+
+source ~/.zplug/init.zsh
+#zplug "spaceship-prompt/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+zplug "dracula/zsh", as:theme
+zplug "marlonrichert/zsh-autocomplete"
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+alias neofetch='neofetch --kitty ~/dotfiles/images/devilman.jpeg --size "400px"'
+neofetch
+
+alias !='cd ~/bin'
+alias dot='cd ~/dotfiles'
+
+zplug load

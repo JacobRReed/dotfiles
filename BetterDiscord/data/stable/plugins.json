@@ -1,0 +1,22 @@
+{
+    "BetterNsfwTag": true,
+    "BetterRoleColors": true,
+    "BetterVolume": true,
+    "CallTimeCounter": true,
+    "GameActivityToggle": true,
+    "HideDisabledEmojis": true,
+    "InvisibleTyping": true,
+    "JoinedAtDate": true,
+    "ReadAllNotificationsButton": true,
+    "RemoveBlockedMessages": false,
+    "SendLargeMessages": false,
+    "ShowHiddenChannels": true,
+    "TypingIndicator": true,
+    "TypingUsersAvatars": true,
+    "ZeresPluginLibrary": true,
+    "BDFDB": true,
+    "RemoveBlockedUsers": true,
+    "BetterCodeblocks": false,
+    "Hastebin": false,
+    "SplitLargeMessages": true
+}
