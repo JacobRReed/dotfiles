@@ -1,8 +1,14 @@
 call plug#begin('~/.config/nvim/plugged')
   Plug 'chrisbra/Colorizer'
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+    let g:NERDTreeWinSize=40
+  Plug 'dyng/ctrlsf.vim'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'Shatur/neovim-session-manager'
+  Plug 'nvim-telescope/telescope.nvim'
   Plug 'Xuyuanp/nerdtree-git-plugin'
-    let g:NERDTreeIndicatorMapCustom = {
+    let g:NERDTreeGitStatusIndicatorMapCustom = {
       \ "Modified"  : "✹",
       \ "Staged"    : "✚",
       \ "Untracked" : "✭",
@@ -48,9 +54,9 @@ call plug#begin('~/.config/nvim/plugged')
     let g:vim_json_syntax_conceal = 0
   Plug 'peitalin/vim-jsx-typescript'
   Plug 'ekalinin/Dockerfile.vim'
-  Plug 'ctrlpvim/ctrlp.vim'
-    let g:ctrlp_custom_ignore = 'coverage'
-    let g:ctrlp_buffer_func = { 'enter': 'CtrlPMappings' }
+  " Plug 'ctrlpvim/ctrlp.vim'
+    " let g:ctrlp_custom_ignore = 'coverage'
+    " let g:ctrlp_buffer_func = { 'enter': 'CtrlPMappings' }
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'neoclide/coc-lists'
     let g:coc_global_extensions = [
@@ -66,6 +72,9 @@ call plug#end()
 " Sets Dracula as Theme, this needs to be after plug#end
 colorscheme dracula
 
+" Loads sessions into telescope
+lua require('telescope').load_extension('sessions')
+
 " SETs
 "########################
 set autoread " detect when a file is changed
@@ -74,7 +83,7 @@ set autoread " detect when a file is changed
 set noerrorbells
 set visualbell
 set t_vb=
-set tm=500
+set tm=400
 set number " show line numbers
 set wrap " turn on line wrapping
 set wrapmargin=8 " wrap lines when coming within n characters from side
@@ -141,9 +150,9 @@ set wildignore+=*/node_modules/*
 
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
 " switch cursor to line when in insert mode, and block when not
-set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-\,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-\,sm:block-blinkwait175-blinkoff150-blinkon175
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor40
+\,a:blinkwait700-blinkoff400-blinkon240-Cursor/lCursor
+\,sm:block-blinkwait175-blinkoff140-blinkon175
 
 if &term =~ '256color'
     " disable background color erase
@@ -190,9 +199,9 @@ noremap <Tab> :bn<CR>
 noremap <S-Tab> :bp<CR>
 
 " Buffer Current Close
-nmap <C-w> :bd<CR>
+nmap <leader>w :bd<CR>
 " Buffer close all
-nmap <leader-w> :BufOnly<CR>
+nmap <leader>W :BufOnly<CR>
 
 " new line without insert mode
 nmap <S-Enter> O<Esc>
@@ -204,6 +213,12 @@ vmap > >gv
 
 " enable . command in visual mode
 vnoremap . :normal .<cr>
+
+" CTRLSF
+nmap     <C-F>f <Plug>CtrlSFPrompt
+
+" Finder
+nnoremap <C-p> <cmd>Telescope find_files<cr>
 
 " Abbreviations
 " ########################
@@ -295,3 +310,4 @@ endfunction
 autocmd VimEnter * NERDTree " Opens NERDTree when vim opens
 autocmd VimEnter * wincmd p " focuses editor, not nerdtree, on open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " if all buffers are closed, exit vim
+autocmd VimLeave * SaveSession
