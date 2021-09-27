@@ -1,12 +1,33 @@
 call plug#begin('~/.config/nvim/plugged')
   Plug 'chrisbra/Colorizer'
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+    let g:NERDTreeIndicatorMapCustom = {
+      \ "Modified"  : "✹",
+      \ "Staged"    : "✚",
+      \ "Untracked" : "✭",
+      \ "Renamed"   : "➜",
+      \ "Unmerged"  : "═",
+      \ "Deleted"   : "",
+      \ "Dirty"     : "✗",
+      \ "Clean"     : "✔︎",
+      \ 'Ignored'   : '☒',
+      \ "Unknown"   : "?"
+      \ }
+  Plug 'airblade/vim-gitgutter'
+    set signcolumn=yes
+    let g:gitgutter_sign_added = '✚'
+    let g:gitgutter_sign_modified = '✹'
+    let g:gitgutter_sign_removed = '-'
+    let g:gitgutter_sign_removed_first_line = '-'
+    let g:gitgutter_sign_modified_removed = '-'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
     let g:airline_theme='dracula'
     let g:airline#extensions#tabline#enabled = 1
     let g:airline_powerline_fonts = 1
     let g:airline#extensions#tabline#buffer_nr_show = 1
+    let g:airline#extensions#tabline#formatter = 'unique_tail'
   Plug 'https://github.com/tpope/vim-fugitive.git'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-abolish'
@@ -17,7 +38,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'ryanoasis/vim-devicons'
   Plug 'pangloss/vim-javascript'
   Plug 'gregsexton/MatchTag', { 'for': 'html' }
-  Plug 'leafgarland/typescript-vim', { 'for': ['typescript', 'typescript.tsx'] }
+  Plug 'HerringtonDarkholme/yats.vim'
   Plug 'wavded/vim-stylus', { 'for': ['stylus', 'markdown'] }
   Plug 'groenewege/vim-less', { 'for': 'less' }
   Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
@@ -25,6 +46,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'stephenway/postcss.vim', { 'for': 'css' }
   Plug 'elzr/vim-json', { 'for': 'json' }
     let g:vim_json_syntax_conceal = 0
+  Plug 'peitalin/vim-jsx-typescript'
   Plug 'ekalinin/Dockerfile.vim'
   Plug 'ctrlpvim/ctrlp.vim'
     let g:ctrlp_custom_ignore = 'coverage'
@@ -159,10 +181,6 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <leader>rn <Plug>(coc-rename)
-nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
-nmap <leader>do <Plug>(coc-codeaction)
-autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
-autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 " Remaps Leader (normally \) -> Space
 map <Space> <Leader>
@@ -170,7 +188,12 @@ map <Space> <Leader>
 " Buffer Switching
 noremap <Tab> :bn<CR>
 noremap <S-Tab> :bp<CR>
-"
+
+" Buffer Current Close
+nmap <C-w> :bd<CR>
+" Buffer close all
+nmap <leader-w> :BufOnly<CR>
+
 " new line without insert mode
 nmap <S-Enter> O<Esc>
 nmap <Enter> O<Esc>
@@ -202,3 +225,73 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " Replaces all but first 'pick' with 'squash' for rebasing
 command ReplacePick 2,$s/pick/squash
+
+
+" BufOnly.vim  -  Delete all the buffers except the current/named buffer.
+" Copyright November 2003 by Christian J. Robinson <infynity@onewest.net>
+" Distributed under the terms of the Vim license.  See ":help license".
+" Usage:
+" :Bonly / :BOnly / :Bufonly / :BufOnly [buffer] 
+" Without any arguments the current buffer is kept.  With an argument the
+" buffer name/number supplied is kept.
+command! -nargs=? -complete=buffer -bang Bonly
+    \ :call BufOnly('<args>', '<bang>')
+command! -nargs=? -complete=buffer -bang BOnly
+    \ :call BufOnly('<args>', '<bang>')
+command! -nargs=? -complete=buffer -bang Bufonly
+    \ :call BufOnly('<args>', '<bang>')
+command! -nargs=? -complete=buffer -bang BufOnly
+    \ :call BufOnly('<args>', '<bang>')
+function! BufOnly(buffer, bang)
+	if a:buffer == ''
+		" No buffer provided, use the current buffer.
+		let buffer = bufnr('%')
+	elseif (a:buffer + 0) > 0
+		" A buffer number was provided.
+		let buffer = bufnr(a:buffer + 0)
+	else
+		" A buffer name was provided.
+		let buffer = bufnr(a:buffer)
+	endif
+
+	if buffer == -1
+		echohl ErrorMsg
+		echomsg "No matching buffer for" a:buffer
+		echohl None
+		return
+	endif
+
+	let last_buffer = bufnr('$')
+
+	let delete_count = 0
+	let n = 1
+	while n <= last_buffer
+		if n != buffer && buflisted(n)
+			if a:bang == '' && getbufvar(n, '&modified')
+				echohl ErrorMsg
+				echomsg 'No write since last change for buffer'
+							\ n '(add ! to override)'
+				echohl None
+			else
+				silent exe 'bdel' . a:bang . ' ' . n
+				if ! buflisted(n)
+					let delete_count = delete_count+1
+				endif
+			endif
+		endif
+		let n = n+1
+	endwhile
+
+	if delete_count == 1
+		echomsg delete_count "buffer deleted"
+	elseif delete_count > 1
+		echomsg delete_count "buffers deleted"
+	endif
+
+endfunction
+
+" Autocmds
+" ########################
+autocmd VimEnter * NERDTree " Opens NERDTree when vim opens
+autocmd VimEnter * wincmd p " focuses editor, not nerdtree, on open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " if all buffers are closed, exit vim
