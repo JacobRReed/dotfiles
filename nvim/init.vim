@@ -1,44 +1,44 @@
 call plug#begin('~/.config/nvim/plugged')
-      Plug 'chrisbra/Colorizer'
-      Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-      Plug 'vim-airline/vim-airline'
-      Plug 'vim-airline/vim-airline-themes'
-	let g:airline_theme='dracula'
-	let g:airline#extensions#tabline#enabled = 1
-	let g:airline_powerline_fonts = 1
-	let g:airline#extensions#tabline#buffer_nr_show = 1
-      Plug 'https://github.com/tpope/vim-fugitive.git'
-      Plug 'tpope/vim-commentary'
-      Plug 'tpope/vim-abolish'
-      Plug 'tpope/vim-ragtag'
-      Plug 'tpope/vim-surround'
-      Plug 'tpope/vim-sleuth'
-      Plug 'sickill/vim-pasta'
-      Plug 'ryanoasis/vim-devicons'
-      Plug 'pangloss/vim-javascript'
-      Plug 'gregsexton/MatchTag', { 'for': 'html' }
-      Plug 'leafgarland/typescript-vim', { 'for': ['typescript', 'typescript.tsx'] }
-      Plug 'wavded/vim-stylus', { 'for': ['stylus', 'markdown'] }
-      Plug 'groenewege/vim-less', { 'for': 'less' }
-      Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
-      Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-      Plug 'stephenway/postcss.vim', { 'for': 'css' }
-      Plug 'elzr/vim-json', { 'for': 'json' }
-	let g:vim_json_syntax_conceal = 0
-      Plug 'ekalinin/Dockerfile.vim'
-      Plug 'ctrlpvim/ctrlp.vim'
-	let g:ctrlp_custom_ignore = 'coverage'
-	let g:ctrlp_buffer_func = { 'enter': 'CtrlPMappings' }
-      Plug 'neoclide/coc.nvim', {'branch': 'release'}
-      Plug 'neoclide/coc-lists'
-	let g:coc_global_extensions = [
-	  \ 'coc-tsserver'
-	  \ ]
-	if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-	  let g:coc_global_extensions += ['coc-eslint']
-	endif
-	let g:coc_node_path = '~/.nvm/versions/node/v12.12.0/bin/node'
-      Plug 'dracula/vim', {'as':'dracula'}
+  Plug 'chrisbra/Colorizer'
+  Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+    let g:airline_theme='dracula'
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline_powerline_fonts = 1
+    let g:airline#extensions#tabline#buffer_nr_show = 1
+  Plug 'https://github.com/tpope/vim-fugitive.git'
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-abolish'
+  Plug 'tpope/vim-ragtag'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-sleuth'
+  Plug 'sickill/vim-pasta'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'pangloss/vim-javascript'
+  Plug 'gregsexton/MatchTag', { 'for': 'html' }
+  Plug 'leafgarland/typescript-vim', { 'for': ['typescript', 'typescript.tsx'] }
+  Plug 'wavded/vim-stylus', { 'for': ['stylus', 'markdown'] }
+  Plug 'groenewege/vim-less', { 'for': 'less' }
+  Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
+  Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
+  Plug 'stephenway/postcss.vim', { 'for': 'css' }
+  Plug 'elzr/vim-json', { 'for': 'json' }
+    let g:vim_json_syntax_conceal = 0
+  Plug 'ekalinin/Dockerfile.vim'
+  Plug 'ctrlpvim/ctrlp.vim'
+    let g:ctrlp_custom_ignore = 'coverage'
+    let g:ctrlp_buffer_func = { 'enter': 'CtrlPMappings' }
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'neoclide/coc-lists'
+    let g:coc_global_extensions = [
+      \ 'coc-tsserver'
+      \ ]
+    if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+      let g:coc_global_extensions += ['coc-eslint']
+    endif
+    let g:coc_node_path = '~/.nvm/versions/node/v12.12.0/bin/node'
+  Plug 'dracula/vim', {'as':'dracula'}
 call plug#end()
 
 " Sets Dracula as Theme, this needs to be after plug#end
